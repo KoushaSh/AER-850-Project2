@@ -10,9 +10,7 @@ Created on Mon Nov  3 22:55:39 2025
 
 import os
 
-# Set working directory manually (change path if needed)
-os.chdir(r"P:\Kousha\Ryerson\Semesters\Fall 2025\AER 850\Project 2")
-print("Current working directory:", os.getcwd())
+
 
 import numpy as np
 import tensorflow as tf

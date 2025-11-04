@@ -148,16 +148,11 @@ model_1.compile(
 print(model_1.summary())
 
 # =====================================================
-# Step 3: Training for Model 1
+# Step 3: Training for Model 1 
 # =====================================================
 
-EPOCHS = 15  
+EPOCHS = 15
 
-# how many batches per epoch
-steps_per_epoch = train_generator.samples // BATCH_SIZE
-validation_steps = valid_generator.samples // BATCH_SIZE
-
-# early stopping so we don't keep training once val_loss stops improving
 early_stop = EarlyStopping(
     monitor='val_loss',
     patience=3,
@@ -167,11 +162,10 @@ early_stop = EarlyStopping(
 history_1 = model_1.fit(
     train_generator,
     epochs=EPOCHS,
-    steps_per_epoch=steps_per_epoch,
     validation_data=valid_generator,
-    validation_steps=validation_steps,
     callbacks=[early_stop],
     verbose=1
 )
+
 
 # history_1 will be used later to plot accuracy/loss (Step 4)

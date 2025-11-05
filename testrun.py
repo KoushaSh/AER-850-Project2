@@ -213,3 +213,74 @@ plt.show()
 best_val_acc = max(val_acc)
 best_epoch = val_acc.index(best_val_acc) + 1
 print(f"Best validation accuracy for Model 1: {best_val_acc:.3f} at epoch {best_epoch}")
+
+# =====================================================
+# Model 2: second CNN for hyperparameter analysis
+#  - more filters (64, 128, 256)
+#  - LeakyReLU + ELU activations
+#  - different dense size
+# =====================================================
+
+from tensorflow.keras.layers import LeakyReLU  
+
+def build_model_2(input_shape, num_classes):
+    """
+    Model 2 = "slightly upgraded" CNN.
+    Idea is to change a few hyperparameters so we can compare
+    with Model 1 in the report.
+    """
+    model = models.Sequential()
+
+    # Conv block 1 
+    model.add(layers.Conv2D(64, (3, 3), padding='same', input_shape=input_shape))
+    model.add(LeakyReLU(alpha=0.1))
+    model.add(layers.MaxPooling2D((2, 2)))
+
+    # Conv block 2 
+    model.add(layers.Conv2D(128, (3, 3), padding='same'))
+    model.add(LeakyReLU(alpha=0.1))
+    model.add(layers.MaxPooling2D((2, 2)))
+
+    # Conv block 3 
+    model.add(layers.Conv2D(256, (3, 3), padding='same'))
+    model.add(LeakyReLU(alpha=0.1))
+    model.add(layers.MaxPooling2D((2, 2)))
+
+    # Dense head 
+    model.add(layers.Flatten())
+    # Change dense size + activation vs Model 1
+    model.add(layers.Dense(512, activation='elu'))
+    model.add(layers.Dropout(0.5))
+    model.add(layers.Dense(num_classes, activation='softmax'))
+
+    return model
+
+
+model_2 = build_model_2(INPUT_SHAPE, num_classes)
+
+# use SGD + momentum so we can compare to Model 1
+opt_sgd = optimizers.SGD(learning_rate=1e-3, momentum=0.9)
+
+model_2.compile(
+    loss='categorical_crossentropy',
+    optimizer=opt_sgd,
+    metrics=['accuracy']
+)
+
+print(model_2.summary())
+
+EPOCHS_2 = 15
+
+early_stop_2 = EarlyStopping(
+    monitor='val_loss',
+    patience=3,
+    restore_best_weights=True
+)
+
+history_2 = model_2.fit(
+    train_generator,
+    epochs=EPOCHS_2,
+    validation_data=valid_generator,
+    callbacks=[early_stop_2],
+    verbose=1
+)

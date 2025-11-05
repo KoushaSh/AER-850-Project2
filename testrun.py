@@ -284,3 +284,39 @@ history_2 = model_2.fit(
     callbacks=[early_stop_2],
     verbose=1
 )
+
+# =====================================================
+# Model 2 evaluation - plots
+# =====================================================
+
+train_acc2 = history_2.history['accuracy']
+val_acc2   = history_2.history['val_accuracy']
+train_loss2 = history_2.history['loss']
+val_loss2   = history_2.history['val_loss']
+epochs_range2 = range(1, len(train_acc2) + 1)
+
+# Accuracy
+plt.figure(figsize=(7,5))
+plt.plot(epochs_range2, train_acc2, label='Train Accuracy (Model 2)')
+plt.plot(epochs_range2, val_acc2,   label='Val Accuracy (Model 2)')
+plt.title('Model 2 – Accuracy vs Epochs')
+plt.xlabel('Epoch'); plt.ylabel('Accuracy')
+plt.legend(); plt.grid(True)
+# plt.savefig("model2_accuracy.png", dpi=300, bbox_inches='tight')
+plt.show()
+
+# Loss
+plt.figure(figsize=(7,5))
+plt.plot(epochs_range2, train_loss2, label='Train Loss (Model 2)')
+plt.plot(epochs_range2, val_loss2,   label='Val Loss (Model 2)')
+plt.title('Model 2 – Loss vs Epochs')
+plt.xlabel('Epoch'); plt.ylabel('Loss')
+plt.legend(); plt.grid(True)
+# plt.savefig("model2_loss.png", dpi=300, bbox_inches='tight')
+plt.show()
+
+# quick comparison
+best_val_acc_1 = max(history_1.history['val_accuracy'])
+best_val_acc_2 = max(history_2.history['val_accuracy'])
+print(f"Best val acc Model 1: {best_val_acc_1:.3f}")
+print(f"Best val acc Model 2: {best_val_acc_2:.3f}")

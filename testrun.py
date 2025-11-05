@@ -169,3 +169,47 @@ history_1 = model_1.fit(
 
 
 # history_1 will be used later to plot accuracy/loss (Step 4)
+
+# ===================================================
+# Step 4: Model 1 evaluation
+# ===================================================
+
+import matplotlib.pyplot as plt
+
+#
+train_acc = history_1.history['accuracy']
+val_acc   = history_1.history['val_accuracy']
+train_loss = history_1.history['loss']
+val_loss   = history_1.history['val_loss']
+
+epochs_range = range(1, len(train_acc) + 1)  # in case early stopping kicks in
+
+# Accuracy plot 
+plt.figure(figsize=(7, 5))
+plt.plot(epochs_range, train_acc, label='Train Accuracy')
+plt.plot(epochs_range, val_acc,   label='Validation Accuracy')
+plt.title('Model 1 – Accuracy vs Epochs')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.legend()
+plt.grid(True)
+
+# plt.savefig("model1_accuracy.png", dpi=300, bbox_inches='tight')
+plt.show()
+
+#  Loss plot 
+plt.figure(figsize=(7, 5))
+plt.plot(epochs_range, train_loss, label='Train Loss')
+plt.plot(epochs_range, val_loss,   label='Validation Loss')
+plt.title('Model 1 – Loss vs Epochs')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.legend()
+plt.grid(True)
+# plt.savefig("model1_loss.png", dpi=300, bbox_inches='tight')
+plt.show()
+
+
+best_val_acc = max(val_acc)
+best_epoch = val_acc.index(best_val_acc) + 1
+print(f"Best validation accuracy for Model 1: {best_val_acc:.3f} at epoch {best_epoch}")

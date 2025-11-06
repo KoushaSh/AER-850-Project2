@@ -320,3 +320,15 @@ best_val_acc_1 = max(history_1.history['val_accuracy'])
 best_val_acc_2 = max(history_2.history['val_accuracy'])
 print(f"Best val acc Model 1: {best_val_acc_1:.3f}")
 print(f"Best val acc Model 2: {best_val_acc_2:.3f}")
+
+# =====================================================
+# Save Model 1 for Step 5 testing
+# =====================================================
+
+# I’m choosing Model 1 as the "final" model because it had slightly
+# better validation accuracy (~0.74 vs ~0.72 for Model 2).
+
+model_1.save("model1_best.keras")
+print("Saved Model 1 as model1_best.keras")
+model_2.save("model2_best.keras")
+print("Model 2 saved.")
